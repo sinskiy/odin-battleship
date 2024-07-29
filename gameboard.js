@@ -5,6 +5,9 @@ export default class Gameboard {
     const BOARD_SIZE = 10;
     // create 2d array where each item is unique
     this.ships = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
+    this.shots = Array.from({ length: BOARD_SIZE }, () =>
+      Array(BOARD_SIZE).fill(false)
+    );
   }
   place(x, y, length, horizontal = true) {
     const ship = new Ship(length);
@@ -18,6 +21,14 @@ export default class Gameboard {
       for (let i = y; i < yEnd; i++) {
         this.ships[i][x] = ship;
       }
+    }
+  }
+  receiveAttack(x, y) {
+    this.shots[y][x] = true;
+
+    const ship = this.ships[y][x];
+    if (ship) {
+      ship.hits++;
     }
   }
 }
