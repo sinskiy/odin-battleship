@@ -5,9 +5,7 @@ export default class Gameboard {
     const BOARD_SIZE = 10;
     // create 2d array where each item is unique
     this.ships = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
-    this.shots = Array.from({ length: BOARD_SIZE }, () =>
-      Array(BOARD_SIZE).fill(false)
-    );
+    this.shots = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
     this.placedShips = 0;
     this.sankShips = 0;
   }
