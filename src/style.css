@@ -23,11 +23,22 @@ body {
     "Open Sans",
     "Helvetica Neue",
     sans-serif;
+
+  height: 100vh;
+
   display: flex;
-  justify-content: space-between;
-  padding: 12rem;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
 
   background-color: var(--background);
+}
+
+.board {
+  border: 0.25rem solid var(--border);
+  border-radius: 1rem;
+
+  padding: 1rem;
 }
 
 .column {
@@ -40,8 +51,13 @@ body {
   width: 2.5rem;
   height: 2.5rem;
   background-color: var(--surface);
+  border-radius: 0.5rem;
+  margin: 1px;
 
   transition: background-color 100ms;
+}
+.computer .row:hover {
+  opacity: 0.7;
 }
 
 .player .ship {

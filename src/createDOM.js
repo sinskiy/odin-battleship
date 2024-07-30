@@ -11,7 +11,6 @@ export default function createGameDOM(playerPassed, computerPassed) {
   document.body.innerHTML = "";
 
   player = playerPassed;
-  console.log(playerPassed, computerPassed);
   computer = computerPassed;
 
   const board1 = boardToDOM(player);
