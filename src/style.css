@@ -26,6 +26,8 @@ body {
   width: 2.5rem;
   height: 2.5rem;
   background-color: var(--surface);
+
+  transition: background-color 100ms;
 }
 
 .player .ship {
@@ -45,6 +47,16 @@ body {
   left: 50%;
   transform: translate(-50%);
 }
-.computer .row:hover {
+.computer .row:not(.shot):hover {
   background-color: var(--surface-high);
+}
+
+.shot {
+  background-color: var(--surface-high);
+}
+.shot.ship {
+  background-color: var(--secondary);
+}
+.computer .shot::after {
+  display: none;
 }
