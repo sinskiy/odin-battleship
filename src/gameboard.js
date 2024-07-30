@@ -1,8 +1,9 @@
 import Ship from "./ship";
 
+export const BOARD_SIZE = 10;
+
 export default class Gameboard {
   constructor() {
-    const BOARD_SIZE = 10;
     // create 2d array where each item is unique
     this.ships = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
     this.shots = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
