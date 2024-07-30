@@ -3,6 +3,7 @@
   --background: #101417;
   --surface: #1c2024;
   --surface-high: #282a2f;
+  --text: #e2e2e9;
   --primary: #aac7ff;
   --secondary: #ddbce0;
   --border: #8b9198;
@@ -34,29 +35,23 @@ body {
   background-color: var(--primary);
 }
 
-.computer .row::after {
+.shot::after {
   content: "";
   display: block;
 
   width: 0.5rem;
   height: 0.5rem;
-  background-color: var(--secondary);
+  background-color: var(--text);
+  border-radius: 9999px;
 
   position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%);
 }
-.computer .row:not(.shot):hover {
-  background-color: var(--surface-high);
+.shot.ship::after {
+  background-color: red;
 }
-
-.shot {
-  background-color: var(--surface-high);
-}
-.shot.ship {
+.computer .sunk {
   background-color: var(--secondary);
-}
-.computer .shot::after {
-  display: none;
 }

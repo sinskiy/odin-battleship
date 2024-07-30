@@ -25,7 +25,10 @@ function boardToDOM(newPlayer) {
       const boardRow = document.createElement("div");
       boardRow.classList.add("row");
 
-      row instanceof Ship && boardRow.classList.add("ship");
+      if (row instanceof Ship) {
+        boardRow.classList.add("ship");
+        if (row.isSunk()) boardRow.classList.add("sunk");
+      }
       shots[i][j] === true && boardRow.classList.add("shot");
 
       if (newPlayer.type === "computer") {
