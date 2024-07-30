@@ -1,17 +1,29 @@
-import createGame from "./createGame";
 import { BOARD_SIZE } from "./gameboard";
-import { handlePlayerTurn, handleComputerTurn } from "./gameboardEvents";
+import {
+  handlePlayerTurn,
+  handleComputerTurn,
+  endGame,
+} from "./gameboardEvents";
 import Ship from "./ship";
 
-const { player, computer } = createGame();
-export default function createGameDOM() {
+let player, computer;
+export default function createGameDOM(playerPassed, computerPassed) {
   document.body.innerHTML = "";
+
+  player = playerPassed;
+  console.log(playerPassed, computerPassed);
+  computer = computerPassed;
+
   const board1 = boardToDOM(player);
   const board2 = boardToDOM(computer);
   document.body.append(board1, board2);
 }
 
 function boardToDOM(newPlayer) {
+  if (newPlayer.board.allSunk()) {
+    endGame(newPlayer.type);
+  }
+
   const DOMBoard = document.createElement("div");
   DOMBoard.classList.add("board", newPlayer.type);
 
@@ -38,7 +50,7 @@ function boardToDOM(newPlayer) {
 
           handlePlayerTurn(computer.board, i, j);
           handleComputerTurn(player.board);
-          createGameDOM();
+          createGameDOM(player, computer);
         });
       }
 
