@@ -3,28 +3,34 @@ import {
   handlePlayerTurn,
   handleComputerTurn,
   endGame,
+  restartGame,
 } from "./gameboardEvents";
 import Ship from "./ship";
 
+export const root = document.querySelector("#root");
+
 let player, computer;
 export default function createGameDOM(playerPassed, computerPassed) {
-  document.body.innerHTML = "";
+  root.innerHTML = "";
 
   player = playerPassed;
   computer = computerPassed;
 
+  const boards = document.createElement("div");
+  boards.classList.add("boards");
+
   const board1 = boardToDOM(player);
   const board2 = boardToDOM(computer);
-  document.body.append(board1, board2);
+  boards.append(board1, board2);
+
+  const restartButton = createRestartButton();
+
+  root.append(boards, restartButton);
 }
 
 function boardToDOM(newPlayer) {
-  if (newPlayer.board.allSunk()) {
-    endGame(newPlayer.type);
-  }
-
   const DOMBoard = document.createElement("div");
-  DOMBoard.classList.add("board", newPlayer.type);
+  DOMBoard.classList.add("board", "player");
 
   const { ships, shots } = newPlayer.board;
   for (let i = 0; i < BOARD_SIZE; i++) {
@@ -53,12 +59,26 @@ function boardToDOM(newPlayer) {
   return DOMBoard;
 }
 
+function createRestartButton() {
+  const button = document.createElement("button");
+  button.classList.add("secondary");
+  button.textContent = "restart ⟲";
+  button.addEventListener("click", restartGame);
+  return button;
+}
+
 function waitForClick(boardRow, shots, i, j) {
   boardRow.addEventListener("click", () => {
     if (shots[i][j] === true) return;
 
     handlePlayerTurn(computer.board, i, j);
+    if (player.board.allSunk()) {
+      endGame(computer.type);
+    }
     handleComputerTurn(player.board);
+    if (computer.board.allSunk()) {
+      endGame(player.type);
+    }
     createGameDOM(player, computer);
   });
 }

@@ -25,13 +25,17 @@ body {
     sans-serif;
 
   height: 100vh;
-
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 4rem;
+  justify-content: center;
 
   background-color: var(--background);
+}
+
+.boards {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
 }
 
 .board {
@@ -114,6 +118,16 @@ button {
   color: var(--on-primary);
   border-radius: 9999px;
 }
+button:disabled {
+  opacity: 0.5;
+}
 button:focus-visible {
   outline: 1px solid var(--primary);
+}
+.secondary {
+  width: fit-content;
+  padding: 1rem;
+
+  background-color: transparent;
+  color: var(--text);
 }
