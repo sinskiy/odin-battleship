@@ -30,7 +30,7 @@ export default function createGameDOM(playerPassed, computerPassed) {
 
 function boardToDOM(newPlayer) {
   const DOMBoard = document.createElement("div");
-  DOMBoard.classList.add("board", "player");
+  DOMBoard.classList.add("board", newPlayer.type);
 
   const { ships, shots } = newPlayer.board;
   for (let i = 0; i < BOARD_SIZE; i++) {
