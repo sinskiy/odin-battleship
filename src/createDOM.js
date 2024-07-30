@@ -55,6 +55,9 @@ function boardToDOM(newPlayer) {
 
     DOMBoard.appendChild(boardColumn);
   }
+  if (newPlayer.board.allSunk()) {
+    endGame(player.type);
+  }
 
   return DOMBoard;
 }
@@ -72,13 +75,7 @@ function waitForClick(boardRow, shots, i, j) {
     if (shots[i][j] === true) return;
 
     handlePlayerTurn(computer.board, i, j);
-    if (player.board.allSunk()) {
-      endGame(computer.type);
-    }
     handleComputerTurn(player.board);
-    if (computer.board.allSunk()) {
-      endGame(player.type);
-    }
     createGameDOM(player, computer);
   });
 }
