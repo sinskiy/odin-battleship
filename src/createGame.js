@@ -1,6 +1,6 @@
 import Player from "./player";
 
-export function createGame() {
+export default function createGame() {
   const player1 = new Player("player");
   const player2 = new Player("computer");
   player1.board.place(0, 0, 5);
