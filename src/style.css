@@ -1,0 +1,31 @@
+:root {
+  color-scheme: light dark;
+  --background: #101417;
+  --surface: #1c2024;
+  --primary: #aac7ff;
+  --border: #8b9198;
+}
+
+body {
+  display: flex;
+  justify-content: space-between;
+  padding: 12rem;
+
+  background-color: var(--background);
+}
+
+.column {
+  display: flex;
+}
+
+.row {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.player .ship {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+}
