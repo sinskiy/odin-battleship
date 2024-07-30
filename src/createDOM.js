@@ -56,7 +56,7 @@ function boardToDOM(newPlayer) {
     DOMBoard.appendChild(boardColumn);
   }
   if (newPlayer.board.allSunk()) {
-    endGame(player.type);
+    endGame(newPlayer.type);
   }
 
   return DOMBoard;

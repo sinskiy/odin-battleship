@@ -73,12 +73,21 @@ function placeSatisfies(board, x, y, length, horizontal) {
     return false;
   }
   if (horizontal) {
-    for (let i = x; i < x + length; i++) {
-      if (board.ships[i][y] !== undefined) return false;
+    for (let i = x - 1; i < x + length + 1; i++) {
+      const currRow = board.ships[i];
+      if (!currRow) continue;
+
+      const prev = y - 1 >= 0 ? currRow[y - 1] : false;
+      const curr = y >= 0 && y < BOARD_SIZE ? currRow[y] : false;
+      const next = y + 1 < BOARD_SIZE ? currRow[y + 1] : false;
+      if (prev || curr || next) return false;
     }
   } else {
-    for (let i = y; i < y + length; i++) {
-      if (board.ships[x][i] !== undefined) return false;
+    for (let i = y - 1; i < y + length + 1; i++) {
+      const prev = x - 1 >= 0 ? board.ships[x - 1][i] : false;
+      const curr = board.ships[x][i];
+      const next = x + 1 < BOARD_SIZE ? board.ships[x + 1][i] : false;
+      if (prev || curr || next) return false;
     }
   }
   return true;
