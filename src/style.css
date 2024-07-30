@@ -2,7 +2,9 @@
   color-scheme: light dark;
   --background: #101417;
   --surface: #1c2024;
+  --surface-high: #282a2f;
   --primary: #aac7ff;
+  --secondary: #ddbce0;
   --border: #8b9198;
 }
 
@@ -19,13 +21,30 @@ body {
 }
 
 .row {
+  position: relative;
+
   width: 2.5rem;
   height: 2.5rem;
   background-color: var(--surface);
-  border: 1px solid var(--border);
 }
 
 .player .ship {
   background-color: var(--primary);
-  border: 1px solid var(--primary);
+}
+
+.computer .row::after {
+  content: "";
+  display: block;
+
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--secondary);
+
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+}
+.computer .row:hover {
+  background-color: var(--surface-high);
 }
