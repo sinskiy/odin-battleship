@@ -33,25 +33,16 @@ function boardToDOM(newPlayer) {
     const boardColumn = document.createElement("div");
     boardColumn.classList.add("column");
     for (let j = 0; j < BOARD_SIZE; j++) {
+      const wasShot = shots[i][j];
+
       const row = column[j];
       const boardRow = document.createElement("div");
       boardRow.classList.add("row");
 
-      if (row instanceof Ship) {
-        boardRow.classList.add("ship");
-        if (row.isSunk()) boardRow.classList.add("sunk");
-      }
-      shots[i][j] === true && boardRow.classList.add("shot");
+      addRowVisualHelpers(row, boardRow, wasShot);
 
       if (newPlayer.type === "computer") {
-        boardRow.addEventListener("click", () => {
-          const wasShot = shots[i][j];
-          if (wasShot) return;
-
-          handlePlayerTurn(computer.board, i, j);
-          handleComputerTurn(player.board);
-          createGameDOM(player, computer);
-        });
+        waitForClick(boardRow, shots, i, j);
       }
 
       boardColumn.appendChild(boardRow);
@@ -61,4 +52,22 @@ function boardToDOM(newPlayer) {
   }
 
   return DOMBoard;
+}
+
+function waitForClick(boardRow, shots, i, j) {
+  boardRow.addEventListener("click", () => {
+    if (shots[i][j] === true) return;
+
+    handlePlayerTurn(computer.board, i, j);
+    handleComputerTurn(player.board);
+    createGameDOM(player, computer);
+  });
+}
+
+function addRowVisualHelpers(row, boardRow, wasShot) {
+  if (row instanceof Ship) {
+    boardRow.classList.add("ship");
+    if (row.isSunk()) boardRow.classList.add("sunk");
+  }
+  wasShot === true && boardRow.classList.add("shot");
 }
