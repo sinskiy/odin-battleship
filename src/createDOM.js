@@ -42,6 +42,24 @@ export default function createGameDOM(
 }
 
 function boardToDOM(newPlayer) {
+  const boardContainer = document.createElement("div");
+
+  const name = document.createElement("div");
+  name.classList.add("name");
+
+  const h2 = document.createElement("h2");
+  h2.textContent =
+    newPlayer.type === "player"
+      ? (localStorage.getItem("name") ?? "player")
+      : "computer";
+  h2.contentEditable = true;
+  h2.addEventListener("input", () =>
+    localStorage.setItem("name", h2.textContent),
+  );
+  name.appendChild(h2);
+
+  boardContainer.appendChild(name);
+
   const DOMBoard = document.createElement("div");
   DOMBoard.classList.add("board", newPlayer.type);
 
@@ -70,8 +88,9 @@ function boardToDOM(newPlayer) {
 
     DOMBoard.appendChild(boardColumn);
   }
+  boardContainer.appendChild(DOMBoard);
 
-  return DOMBoard;
+  return boardContainer;
 }
 
 function createRandomizeButton() {
