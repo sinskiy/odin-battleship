@@ -2,6 +2,7 @@ import createGameDOM, { root } from "./createDOM";
 import { SHIPS } from "./gameboardEvents";
 import { placeSatisfies } from "./random";
 
+let waiting = false;
 export function createShipsDOM(board) {
   const shipsContainer = document.createElement("div");
   shipsContainer.classList.add("player", "ships-container");
@@ -13,6 +14,8 @@ export function createShipsDOM(board) {
       const shipContainer = document.createElement("div");
       shipContainer.classList.add("ship-container");
       shipContainer.addEventListener("click", () => {
+        if (waiting) return;
+
         shipContainer.style.opacity = "0.8";
         waitForBoardClick(board, shipContainer.children.length);
       });
@@ -30,6 +33,8 @@ export function createShipsDOM(board) {
 }
 
 function waitForBoardClick(board, length) {
+  waiting = true;
+
   const boardContainer = document.querySelector(".board.player");
   boardContainer.addEventListener(
     "click",
@@ -48,6 +53,8 @@ function waitForBoardClick(board, length) {
       }
       board.place(x, y, length, horizontal);
       createGameDOM();
+
+      waiting = false;
     },
     { once: true },
   );
