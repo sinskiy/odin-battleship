@@ -78,6 +78,7 @@ function createRandomizeButton() {
     randomize(player.board);
     createGameDOM();
   });
+  button.disabled = player.board.shots.flat().filter((x) => x).length > 0;
   return button;
 }
 

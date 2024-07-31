@@ -3,6 +3,7 @@ import { SHIPS } from "./gameboardEvents";
 
 export function randomize(board) {
   board.ships = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
+  board.placedShips = [0, 0, 0, 0, 0];
   for (let i = 1; i < SHIPS.length; i++) {
     let shipAmount = SHIPS[i];
     while (shipAmount > 0) {
