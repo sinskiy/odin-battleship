@@ -6,6 +6,7 @@ import {
   restartGame,
 } from "./gameboardEvents";
 import Ship from "./ship";
+import { createShipsDOM } from "./shipsDOM";
 
 export const root = document.querySelector("#root");
 
@@ -16,6 +17,8 @@ export default function createGameDOM(playerPassed, computerPassed) {
   player = playerPassed;
   computer = computerPassed;
 
+  const ships = createShipsDOM();
+
   const boards = document.createElement("div");
   boards.classList.add("boards");
 
@@ -25,7 +28,7 @@ export default function createGameDOM(playerPassed, computerPassed) {
 
   const restartButton = createRestartButton();
 
-  root.append(boards, restartButton);
+  root.append(ships, boards, restartButton);
 }
 
 function boardToDOM(newPlayer) {
@@ -40,17 +43,17 @@ function boardToDOM(newPlayer) {
     for (let j = 0; j < BOARD_SIZE; j++) {
       const wasShot = shots[i][j];
 
-      const row = column[j];
-      const boardRow = document.createElement("div");
-      boardRow.classList.add("row");
+      const cell = column[j];
+      const boardCell = document.createElement("div");
+      boardCell.classList.add("cell");
 
-      addRowVisualHelpers(row, boardRow, wasShot);
+      addRowVisualHelpers(cell, boardCell, wasShot);
 
       if (newPlayer.type === "computer") {
-        waitForClick(boardRow, shots, i, j);
+        waitForClick(boardCell, shots, i, j);
       }
 
-      boardColumn.appendChild(boardRow);
+      boardColumn.appendChild(boardCell);
     }
 
     DOMBoard.appendChild(boardColumn);
@@ -65,13 +68,13 @@ function boardToDOM(newPlayer) {
 function createRestartButton() {
   const button = document.createElement("button");
   button.classList.add("secondary");
-  button.textContent = "restart ⟲";
+  button.textContent = "randomize ⟲";
   button.addEventListener("click", restartGame);
   return button;
 }
 
-function waitForClick(boardRow, shots, i, j) {
-  boardRow.addEventListener("click", () => {
+function waitForClick(boardCell, shots, i, j) {
+  boardCell.addEventListener("click", () => {
     if (shots[i][j] === true) return;
 
     handlePlayerTurn(computer.board, i, j);
@@ -80,10 +83,10 @@ function waitForClick(boardRow, shots, i, j) {
   });
 }
 
-function addRowVisualHelpers(row, boardRow, wasShot) {
-  if (row instanceof Ship) {
-    boardRow.classList.add("ship");
-    if (row.isSunk()) boardRow.classList.add("sunk");
+function addRowVisualHelpers(cell, boardCell, wasShot) {
+  if (cell instanceof Ship) {
+    boardCell.classList.add("ship");
+    if (cell.isSunk()) boardCell.classList.add("sunk");
   }
-  wasShot === true && boardRow.classList.add("shot");
+  wasShot === true && boardCell.classList.add("shot");
 }

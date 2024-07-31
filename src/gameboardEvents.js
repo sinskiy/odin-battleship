@@ -43,9 +43,10 @@ export function restartGame() {
   createGameDOM(player, computer);
 }
 
+export const SHIPS = [0, 1, 2, 1, 1];
+
 export function randomize(board) {
   board.ships = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
-  const SHIPS = [0, 1, 2, 1, 1];
   for (let i = 1; i < SHIPS.length; i++) {
     let shipAmount = SHIPS[i];
     while (shipAmount > 0) {
