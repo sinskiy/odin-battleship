@@ -17,7 +17,7 @@ export default function createGameDOM(playerPassed, computerPassed) {
   player = playerPassed;
   computer = computerPassed;
 
-  const ships = createShipsDOM();
+  const ships = createShipsDOM(player.board.placedShips);
 
   const boards = document.createElement("div");
   boards.classList.add("boards");

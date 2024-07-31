@@ -7,7 +7,7 @@ export default class Gameboard {
     // create 2d arrays where each item is unique
     this.ships = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
     this.shots = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE));
-    this.placedShips = 0;
+    this.placedShips = [0, 0, 0, 0, 0];
     this.sankShips = 0;
   }
   place(x, y, length, horizontal = true) {
@@ -24,7 +24,7 @@ export default class Gameboard {
       }
     }
 
-    this.placedShips++;
+    this.placedShips[length - 1]++;
   }
   receiveAttack(x, y) {
     this.shots[x][y] = true;
@@ -37,6 +37,7 @@ export default class Gameboard {
     if (ship.isSunk()) this.sankShips++;
   }
   allSunk() {
-    return this.placedShips === this.sankShips;
+    const shipsAmount = this.placedShips.reduce((sum, curr) => sum + curr, 0);
+    return shipsAmount === this.sankShips;
   }
 }

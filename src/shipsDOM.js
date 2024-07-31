@@ -1,11 +1,13 @@
 import { SHIPS } from "./gameboardEvents";
 
-export function createShipsDOM() {
+export function createShipsDOM(ships) {
+  console.log(ships);
+
   const shipsContainer = document.createElement("div");
   shipsContainer.classList.add("player", "ships-container");
 
-  for (let i = 1; i < SHIPS.length; i++) {
-    let shipAmount = SHIPS[i];
+  for (let i = 1; i < ships.length; i++) {
+    let shipAmount = SHIPS[i] - ships[i];
 
     while (shipAmount > 0) {
       const shipContainer = document.createElement("div");
