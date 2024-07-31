@@ -12,6 +12,10 @@ import { createShipsDOM } from "./shipsDOM";
 export const root = document.querySelector("#root");
 
 let player, computer;
+let computerTurn = false;
+export const setComputerTurn = (newTurn) => {
+  computerTurn = newTurn;
+};
 export default function createGameDOM(
   playerPassed = player,
   computerPassed = computer,
@@ -39,7 +43,7 @@ export default function createGameDOM(
 
 function boardToDOM(newPlayer) {
   const DOMBoard = document.createElement("div");
-  DOMBoard.classList.add("board", "player");
+  DOMBoard.classList.add("board", newPlayer.type);
 
   const { ships, shots } = newPlayer.board;
   for (let i = 0; i < BOARD_SIZE; i++) {
@@ -110,11 +114,10 @@ function createToggleAxisButton() {
 
 function waitForClick(boardCell, shots, i, j) {
   boardCell.addEventListener("click", () => {
-    if (shots[i][j] === true) return;
+    if (shots[i][j] === true || computerTurn) return;
 
     handlePlayerTurn(computer.board, i, j);
     handleComputerTurn(player.board);
-    createGameDOM();
   });
 }
 

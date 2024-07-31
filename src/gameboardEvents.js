@@ -1,5 +1,5 @@
 import createGame from "./createGame";
-import createGameDOM from "./createDOM";
+import createGameDOM, { setComputerTurn } from "./createDOM";
 import { randomCord } from "./random";
 
 export function handlePlayerTurn(board, i, j) {
@@ -7,6 +7,7 @@ export function handlePlayerTurn(board, i, j) {
   if (board.allSunk()) {
     endGame("computer");
   }
+  createGameDOM();
 }
 
 export function handleComputerTurn(board) {
@@ -17,11 +18,22 @@ export function handleComputerTurn(board) {
     return;
   }
 
-  board.receiveAttack(randomX, randomY);
+  setComputerTurn(true);
+  document.querySelector(".board.computer").style.opacity = "0.5";
+  document.querySelector(".board.player").style.opacity = "1";
+  setTimeout(() => {
+    board.receiveAttack(randomX, randomY);
 
-  if (board.allSunk()) {
-    endGame("player");
-  }
+    if (board.allSunk()) {
+      endGame("player");
+    }
+
+    createGameDOM();
+
+    setComputerTurn(false);
+    document.querySelector(".board.computer").style.opacity = "1";
+    document.querySelector(".board.player").style.opacity = "0.5";
+  }, 300);
 }
 
 export function endGame(loser) {
