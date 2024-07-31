@@ -1,9 +1,12 @@
 import createGame from "./createGame";
-import createGameDOM, { root } from "./createDOM";
+import createGameDOM from "./createDOM";
 import { BOARD_SIZE } from "./gameboard";
 
 export function handlePlayerTurn(board, i, j) {
   board.receiveAttack(i, j);
+  if (board.allSunk()) {
+    endGame("computer");
+  }
 }
 
 export function handleComputerTurn(board) {
@@ -15,6 +18,10 @@ export function handleComputerTurn(board) {
   }
 
   board.receiveAttack(randomX, randomY);
+
+  if (board.allSunk()) {
+    endGame("player");
+  }
 }
 
 export function endGame(loser) {
@@ -29,11 +36,14 @@ function createEndDialog(loser) {
 
   const button = document.createElement("button");
   button.textContent = "play again ⟲";
-  button.addEventListener("click", restartGame);
+  button.addEventListener("click", () => {
+    restartGame();
+    dialog.close();
+  });
 
   dialog.append(h2, button);
 
-  root.appendChild(dialog);
+  document.body.appendChild(dialog);
   dialog.showModal();
   dialog.addEventListener("cancel", (e) => e.preventDefault());
 }

@@ -2,8 +2,8 @@ import { BOARD_SIZE } from "./gameboard";
 import {
   handlePlayerTurn,
   handleComputerTurn,
-  endGame,
   restartGame,
+  randomize,
 } from "./gameboardEvents";
 import Ship from "./ship";
 import { createShipsDOM } from "./shipsDOM";
@@ -11,7 +11,10 @@ import { createShipsDOM } from "./shipsDOM";
 export const root = document.querySelector("#root");
 
 let player, computer;
-export default function createGameDOM(playerPassed, computerPassed) {
+export default function createGameDOM(
+  playerPassed = player,
+  computerPassed = computer,
+) {
   root.innerHTML = "";
 
   player = playerPassed;
@@ -26,14 +29,15 @@ export default function createGameDOM(playerPassed, computerPassed) {
   const board2 = boardToDOM(computer);
   boards.append(board1, board2);
 
-  const restartButton = createRestartButton();
+  const randomizeButton = createRandomizeButton();
+  const resetButton = createResetButton();
 
-  root.append(ships, boards, restartButton);
+  root.append(ships, boards, randomizeButton, resetButton);
 }
 
 function boardToDOM(newPlayer) {
   const DOMBoard = document.createElement("div");
-  DOMBoard.classList.add("board", newPlayer.type);
+  DOMBoard.classList.add("board", "player");
 
   const { ships, shots } = newPlayer.board;
   for (let i = 0; i < BOARD_SIZE; i++) {
@@ -58,18 +62,26 @@ function boardToDOM(newPlayer) {
 
     DOMBoard.appendChild(boardColumn);
   }
-  if (newPlayer.board.allSunk()) {
-    endGame(newPlayer.type);
-  }
 
   return DOMBoard;
 }
 
-function createRestartButton() {
+function createRandomizeButton() {
   const button = document.createElement("button");
   button.classList.add("secondary");
   button.textContent = "randomize ⟲";
-  button.addEventListener("click", restartGame);
+  button.addEventListener("click", () => {
+    randomize(player.board);
+    createGameDOM();
+  });
+  return button;
+}
+
+function createResetButton() {
+  const button = document.createElement("button");
+  button.classList.add("secondary");
+  button.textContent = "reset ⟲";
+  button.addEventListener("click", () => restartGame());
   return button;
 }
 
@@ -79,7 +91,7 @@ function waitForClick(boardCell, shots, i, j) {
 
     handlePlayerTurn(computer.board, i, j);
     handleComputerTurn(player.board);
-    createGameDOM(player, computer);
+    createGameDOM();
   });
 }
 

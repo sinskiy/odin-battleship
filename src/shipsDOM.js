@@ -1,8 +1,6 @@
 import { SHIPS } from "./gameboardEvents";
 
 export function createShipsDOM(ships) {
-  console.log(ships);
-
   const shipsContainer = document.createElement("div");
   shipsContainer.classList.add("player", "ships-container");
 
