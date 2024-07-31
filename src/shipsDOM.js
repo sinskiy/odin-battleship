@@ -13,6 +13,7 @@ export function createShipsDOM(board) {
       const shipContainer = document.createElement("div");
       shipContainer.classList.add("ship-container");
       shipContainer.addEventListener("click", () => {
+        shipContainer.style.opacity = "0.8";
         waitForBoardClick(board, shipContainer.children.length);
       });
       for (let j = 0; j <= i; j++) {
@@ -41,7 +42,10 @@ function waitForBoardClick(board, length) {
 
       const horizontal = root.dataset.horizontal === "true";
 
-      if (!placeSatisfies(board, x, y, length, horizontal)) return;
+      if (!placeSatisfies(board, x, y, length, horizontal)) {
+        waitForBoardClick(board, length);
+        return;
+      }
       board.place(x, y, length, horizontal);
       createGameDOM();
     },
