@@ -3,8 +3,9 @@ import {
   handlePlayerTurn,
   handleComputerTurn,
   restartGame,
-  randomize,
+  SHIPS,
 } from "./gameboardEvents";
+import { randomize } from "./random";
 import Ship from "./ship";
 import { createShipsDOM } from "./shipsDOM";
 
@@ -20,7 +21,7 @@ export default function createGameDOM(
   player = playerPassed;
   computer = computerPassed;
 
-  const ships = createShipsDOM(player.board.placedShips);
+  const ships = createShipsDOM(player.board);
 
   const boards = document.createElement("div");
   boards.classList.add("boards");
@@ -53,7 +54,9 @@ function boardToDOM(newPlayer) {
 
       addRowVisualHelpers(cell, boardCell, wasShot);
 
-      if (newPlayer.type === "computer") {
+      const shipsAmount = getTotal(player.board.placedShips);
+      const neededShips = getTotal(SHIPS);
+      if (shipsAmount === neededShips && newPlayer.type === "computer") {
         waitForClick(boardCell, shots, i, j);
       }
 
@@ -101,4 +104,8 @@ function addRowVisualHelpers(cell, boardCell, wasShot) {
     if (cell.isSunk()) boardCell.classList.add("sunk");
   }
   wasShot === true && boardCell.classList.add("shot");
+}
+
+function getTotal(array) {
+  return array.reduce((sum, curr) => sum + curr, 0);
 }

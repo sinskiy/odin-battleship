@@ -1,4 +1,4 @@
-import { randomize } from "./gameboardEvents";
+import { randomize } from "./random";
 import Player from "./player";
 
 export default function createGame() {
