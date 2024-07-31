@@ -32,8 +32,9 @@ export default function createGameDOM(
 
   const randomizeButton = createRandomizeButton();
   const resetButton = createResetButton();
+  const toggleAxisButton = createToggleAxisButton();
 
-  root.append(ships, boards, randomizeButton, resetButton);
+  root.append(ships, boards, randomizeButton, resetButton, toggleAxisButton);
 }
 
 function boardToDOM(newPlayer) {
@@ -72,7 +73,7 @@ function boardToDOM(newPlayer) {
 function createRandomizeButton() {
   const button = document.createElement("button");
   button.classList.add("secondary");
-  button.textContent = "randomize ⟲";
+  button.textContent = "randomize 🔀";
   button.addEventListener("click", () => {
     randomize(player.board);
     createGameDOM();
@@ -85,6 +86,24 @@ function createResetButton() {
   button.classList.add("secondary");
   button.textContent = "reset ⟲";
   button.addEventListener("click", () => restartGame());
+  return button;
+}
+
+function createToggleAxisButton() {
+  const button = document.createElement("button");
+  button.classList.add("secondary");
+  button.textContent =
+    root.dataset.horizontal === "false"
+      ? "place horizontally"
+      : "place vertically";
+
+  root.dataset.horizontal ??= "true";
+
+  button.addEventListener("click", () => {
+    const next = root.dataset.horizontal !== "true";
+    button.textContent = !next ? "place horizontally" : "place vertically";
+    root.dataset.horizontal = next;
+  });
   return button;
 }
 

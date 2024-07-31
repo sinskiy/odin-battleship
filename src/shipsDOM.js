@@ -1,4 +1,4 @@
-import createGameDOM from "./createDOM";
+import createGameDOM, { root } from "./createDOM";
 import { SHIPS } from "./gameboardEvents";
 import { placeSatisfies } from "./random";
 
@@ -39,9 +39,10 @@ function waitForBoardClick(board, length) {
       const grandParent = parent.parentElement;
       const x = Array.from(grandParent.children).indexOf(parent);
 
-      if (!placeSatisfies(board, x, y, length, true)) return;
-      console.log(placeSatisfies(board, x, y));
-      board.place(x, y, length);
+      const horizontal = root.dataset.horizontal === "true";
+
+      if (!placeSatisfies(board, x, y, length, horizontal)) return;
+      board.place(x, y, length, horizontal);
       createGameDOM();
     },
     { once: true },
